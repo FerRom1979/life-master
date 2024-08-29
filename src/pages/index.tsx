@@ -1,7 +1,6 @@
 "use client";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-// import "./globals.css";
 
 function HomePage() {
   const user = false;

@@ -10,7 +10,8 @@
     "eslint:format": "eslint --fix",
     "prettier:format": "prettier --write .",
     "prettier:check": "prettier --check .",
-    "prepare": "husky install"
+    "prepare": "husky",
+    "ts:check": "tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

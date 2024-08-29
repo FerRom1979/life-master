@@ -1,0 +1,19 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# echo "──────── Testing Code ────────";
+# npm test -- --watchAll=false;
+# echo "──────────────────────────────";
+
+# echo "────── Deploy Chromatic ──────";
+# npm run chromatic:json || echo ""
+# echo "──────────────────────────────";
+
+# echo "────── Update README.md ──────";
+# npm run chromatic:readme
+# echo "──────────────────────────────";
+
+# echo "────── Commit README.md ──────";
+# git add README.md;
+# git commit --no-verify -m "docs: :memo: updated link to storybook on README.md"
+# echo "──────────────────────────────";
