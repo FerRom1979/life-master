@@ -1,0 +1,14 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "────── Check Typescript ──────";
+npm run ts:check;
+echo "──────────────────────────────";
+
+echo "────────── Lint Code ─────────";
+npx lint-staged;
+echo "──────────────────────────────";
+
+echo "────── Build Project ─────────";
+npm run build;
+echo "──────────────────────────────";
