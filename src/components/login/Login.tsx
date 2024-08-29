@@ -1,32 +1,31 @@
 "use client";
-import { setUser } from "@/store/reducers/user";
+import { useAppSelector } from "@/store";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 import Button from "../button";
 import Input from "../input";
 import { schema } from "./schema";
-import { IFormSingUp } from "./types";
+import { IFormLogin } from "./types";
 
-function SignUp() {
+function Login() {
+  const { user } = useAppSelector((state) => state.user);
   const router = useRouter();
-  const dispatch = useDispatch();
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid },
-  } = useForm<IFormSingUp>({
+    formState: { errors },
+  } = useForm<IFormLogin>({
     resolver: yupResolver(schema),
   });
-  const onSubmit: SubmitHandler<IFormSingUp> = (data) => {
-    const { email, password, name } = data;
-    const newUser = { email, password, name, id: new Date().getMilliseconds() };
-    dispatch(setUser(newUser));
-    router.push("./register?path=signin");
+  const onSubmit: SubmitHandler<IFormLogin> = (data) => {
+    const { email, password } = data;
+    if (email === user?.email && password === user?.password) {
+      return router.push("/dashboard");
+    }
   };
 
   return (
@@ -36,16 +35,11 @@ function SignUp() {
           <h2 className="text-body-lg font-bold text-white">LM</h2>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-          <h2 className="mb-4 text-center text-[28px] font-bold text-slate-600">Sign Up</h2>
+          <h2 className="mb-4 text-center text-[28px] font-bold text-slate-600">Login</h2>
           <Controller
             name="email"
             control={control}
             render={({ field }) => <Input {...field} placeholder="email" id="email" message={errors.email?.message} />}
-          />
-          <Controller
-            name="name"
-            control={control}
-            render={({ field }) => <Input {...field} placeholder="name" id="name" message={errors.name?.message} />}
           />
           <Controller
             name="password"
@@ -61,28 +55,14 @@ function SignUp() {
               />
             )}
           />
-          <Controller
-            name="confirmPassword"
-            control={control}
-            render={({ field }) => (
-              <Input
-                {...field}
-                placeholder="confirm password"
-                type="password"
-                id="confirmPassword"
-                message={errors.confirmPassword?.message}
-                isPassword
-              />
-            )}
-          />
           <div className="ml-2 mt-2 text-mediumGray">
-            you have an account?{" "}
-            <Link href={"/register?path=singin"} className="font-bold text-calmBlue">
-              Login
+            Don&apos;t have an account?{" "}
+            <Link href={"/register"} className="font-bold text-calmBlue">
+              Sign up
             </Link>
           </div>
           <div className="mt-4 flex w-full justify-center">
-            <Button label="Send" type="submit" disabled={!isValid} />
+            <Button label="Send" type="submit" />
           </div>
         </form>
       </div>
@@ -90,4 +70,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default Login;

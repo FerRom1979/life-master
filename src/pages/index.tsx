@@ -1,6 +1,7 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import React, { useEffect } from "react";
+// import "./globals.css";
 
 function HomePage() {
   const user = false;
@@ -12,7 +13,7 @@ function HomePage() {
     }
   }, [user]);
 
-  return <div className="text-red">HomePage</div>;
+  return <div className="text-slate-400">HomePage</div>;
 }
 
 export default HomePage;
