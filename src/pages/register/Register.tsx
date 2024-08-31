@@ -8,7 +8,7 @@ import SignUp from "@/components/sign-up";
 function Register() {
   const router = useRouter();
   const { path } = router.query;
-  const isSignIn = path === "signin";
+  const isSignIn = path === "login";
 
   return <div>{isSignIn ? <Login /> : <SignUp />}</div>;
 }
