@@ -8,9 +8,10 @@ import React, { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
-import Button from "../button";
-import Input from "../input";
-import WrapperForm from "../wrapperForm";
+import WrapperForm from "@/components/layout/wrapperForm";
+import Button from "@/components/ui/button";
+import Input from "@/components/ui/input";
+
 import { schema } from "./schema";
 import { IFormSingUp } from "./types";
 
