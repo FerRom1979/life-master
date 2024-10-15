@@ -3,5 +3,8 @@ export const messages = {
     login: {
       authentication: "invalid credentials",
     },
+    singUp: {
+      registeredEmail: "The e-mail address is already registered",
+    },
   },
 };

@@ -1,15 +1,10 @@
 "use client";
-import { messages } from "@/constants/messages";
-import { useAppSelector } from "@/store";
-import { setMessage } from "@/store/reducers/messages";
+import { useAuth } from "@/hooks/useAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
 
-import { mockUser } from "../../../mock-data/user";
 import WrapperForm from "../../layout/wrapperForm";
 import Button from "../../ui/button";
 import Input from "../../ui/input";
@@ -17,13 +12,7 @@ import { schema } from "./schema";
 import { IFormLogin } from "./types";
 
 function Login() {
-  const { user } = useAppSelector((state) => state.user);
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const {
-    error: { login },
-  } = messages;
+  const { handleLogin, isLoading } = useAuth();
 
   const {
     control,
@@ -34,24 +23,7 @@ function Login() {
     defaultValues: { email: "", password: "" },
   });
   const onSubmit: SubmitHandler<IFormLogin> = (data) => {
-    try {
-      setIsLoading(true);
-      const { email, password } = data;
-      setTimeout(() => {
-        setIsLoading(false);
-        if (
-          (email === user?.email && password === user?.password) ||
-          (email === mockUser.user?.email && password === mockUser.user?.password)
-        ) {
-          return router.push("/dashboard");
-        } else {
-          dispatch(setMessage({ type: "error", message: login.authentication }));
-        }
-      }, 2000);
-    } catch (error) {
-      setIsLoading(false);
-      console.error(error);
-    }
+    handleLogin(data);
   };
 
   return (

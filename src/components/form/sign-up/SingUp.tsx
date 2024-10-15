@@ -1,12 +1,9 @@
 "use client";
-import { mockUser } from "@/mock-data";
-import { setUser } from "@/store/reducers/user";
+import { useAuth } from "@/hooks/useAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { useDispatch } from "react-redux";
 
 import WrapperForm from "@/components/layout/wrapperForm";
 import Button from "@/components/ui/button";
@@ -16,8 +13,7 @@ import { schema } from "./schema";
 import { IFormSingUp } from "./types";
 
 function SignUp() {
-  const router = useRouter();
-  const dispatch = useDispatch();
+  const { handleSingUp, isLoading } = useAuth();
   const {
     control,
     handleSubmit,
@@ -27,25 +23,8 @@ function SignUp() {
     defaultValues: { email: "", name: "", password: "", confirmPassword: "" },
   });
 
-  const [isLoading, setIsLoading] = useState(false);
-
   const onSubmit: SubmitHandler<IFormSingUp> = (data) => {
-    try {
-      setIsLoading(true);
-      const { email, password, name } = data;
-      const newUser = { email, password, name, id: new Date().getMilliseconds() };
-      setTimeout(() => {
-        setIsLoading(false);
-        if (email === mockUser.user.email) {
-          return;
-        }
-        dispatch(setUser(newUser));
-        router.push("./register?path=login");
-      }, 2000);
-    } catch (error) {
-      setIsLoading(false);
-      console.error(error);
-    }
+    handleSingUp(data);
   };
 
   return (
